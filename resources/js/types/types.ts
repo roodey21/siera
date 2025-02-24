@@ -25,13 +25,14 @@ interface User {
     name: string
     email: string
     phone: string
-    roles: string
+    roles: Role[]
     department: Department
     status: "active" | "inactive"
     created_at: string
     updated_at: string
     deleted_at: string
     avatar: string
+    email_verified_at: string
 }
 
 interface Classification {

@@ -11,7 +11,7 @@ import { formatGmailDate } from "@/helpers/formatDate";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
 import { Letter } from "@/types/types";
-import { Link, router } from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
 import { format } from "date-fns";
 import { ArrowLeft, FileSymlink, Menu, MoreHorizontal, Pencil, SendHorizonal, Trash2 } from "lucide-react";
 import React from "react";
@@ -34,15 +34,15 @@ export default function Show({ letter }: { letter: Letter }) {
                 <Breadcrumb>
                     <BreadcrumbList>
                         <BreadcrumbItem className="hidden md:block">
-                            <BreadcrumbLink href={route('dashboard')}>
+                            <Link href={route('dashboard')}>
                                 Dashboard
-                            </BreadcrumbLink>
+                            </Link>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator className="hidden md:block" />
                         <BreadcrumbItem className="hidden md:block">
-                            <BreadcrumbLink href={route('letter.inbox')}>
+                            <Link href={route('letter.inbox')}>
                                 Surat Keluar
-                            </BreadcrumbLink>
+                            </Link>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator className="hidden md:block" />
                         <BreadcrumbItem>
@@ -52,6 +52,8 @@ export default function Show({ letter }: { letter: Letter }) {
                 </Breadcrumb>
             }
         >
+            <Head title={letter.letter_number.code} />
+
             <div className="flex justify-between mb-4">
                 <Button variant="outline" asChild>
                     <Link href={route('letter.inbox')}>

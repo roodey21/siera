@@ -26,6 +26,7 @@ class UserStoreRequest extends FormRequest
             'email' => 'required|unique:users,email',
             'department_id' => 'nullable',
             'status' => 'required|in:active,inactive',
+            'roles' => 'nullable|exists:roles,name'
         ];
     }
 }

@@ -27,7 +27,9 @@ export function NavMain({
       title: string;
       url: string;
       isActive?: boolean;
+      disabled?: boolean;
     }[];
+    disabled?: boolean;
   }[]
 }) {
   const { url } = usePage();
@@ -60,7 +62,7 @@ export function NavMain({
                     {item.items.map((item) => (
                         <SidebarMenuSubItem key={item.title}>
                         <SidebarMenuSubButton asChild isActive={url === item.url}>
-                            <Link href={item.url}>{item.title}</Link>
+                            <Link href={item.url} disabled={item.disabled}>{item.title}</Link>
                         </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
                     ))}
@@ -69,7 +71,7 @@ export function NavMain({
                 </>
             ) : (
                 <SidebarMenuButton className="w-full" asChild isActive={url === item.url}>
-                <Link href={item.url}>
+                <Link href={item.url} disabled={item.disabled}>
                     {item.icon && <item.icon />}
                     <span>{item.title}{" "}</span>
                     {item.items?.length && (

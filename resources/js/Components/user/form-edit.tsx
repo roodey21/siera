@@ -1,6 +1,6 @@
 import { route } from "ziggy-js";
 import { PageProps } from "@/types";
-import { Department, LetterType, User } from "@/types/types";
+import { Department, LetterType, Role, User } from "@/types/types";
 import { router, useForm, usePage } from "@inertiajs/react";
 import { Label } from "../ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
@@ -14,16 +14,17 @@ import { Calendar } from "../ui/calendar";
 import { useToast } from "@/hooks/use-toast";
 import React from "react";
 import { Switch } from "../ui/switch";
+import { MultiSelector } from "../ui/multiselector";
 
 interface FormEditProps {
     user: User
     onSuccess: () => void
     departments?: Department[]
+    roles: Role[]
 }
 
-export default function FormEdit({ user, onSuccess, departments }: FormEditProps) {
+export default function FormEdit({ user, onSuccess, departments, roles }: FormEditProps) {
     const { errors } = usePage<PageProps>().props
-    const [isActive, setIsActive] = React.useState<boolean>(!!user.status)
 
     const { data, setData, post, processing } = useForm({
         name: user.name,
@@ -31,12 +32,18 @@ export default function FormEdit({ user, onSuccess, departments }: FormEditProps
         phone: user.phone,
         role: "",
         department_id: user.department?.id.toString(),
-        status: user.status
+        status: user.status,
+        roles: user.roles?.map((role) => role.name)
     });
+
+    const rolesOptions = roles?.map((role) => ({ label: role.name, value: role.name }))
+
+    const handleSelectionChange = (selectedValues: any) => {
+        setData('roles', selectedValues)
+    }
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault()
-        // Add your update logic here
         post(route('users.update', user.id))
         console.log(data)
         onSuccess()
@@ -71,27 +78,6 @@ export default function FormEdit({ user, onSuccess, departments }: FormEditProps
                 />
                 {errors.phone && (<p className="text-[0.8rem] font-medium text-destructive">{errors.phone}</p>)}
             </div>
-            {/* <div className="flex flex-col">
-                <Label>Peran</Label>
-                <Select onValueChange={(value) => setData('role', value)}>
-                    <SelectTrigger className="flex-grow w-full min-w-0">
-                        <SelectValue placeholder="Pilih Peran" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        {letterTypes.length ? letterTypes.map((letterType) => (
-                            <SelectItem
-                                value={letterType.id.toString()}
-                                key={letterType.id}
-                            >
-                                {letterType.name}
-                            </SelectItem>
-                        )) : (
-                            <SelectItem value='""' disabled>No options listed</SelectItem>
-                        )}
-                    </SelectContent>
-                </Select>
-                {errors.role && (<p className="text-[0.8rem] font-medium text-destructive">{errors.role}</p>)}
-            </div> */}
             <div className="flex flex-col">
                 <Label>Departemen</Label>
                 <Select onValueChange={(value) => setData('department_id', value)}>
@@ -112,6 +98,17 @@ export default function FormEdit({ user, onSuccess, departments }: FormEditProps
                     </SelectContent>
                 </Select>
                 {errors.role && (<p className="text-[0.8rem] font-medium text-destructive">{errors.role}</p>)}
+            </div>
+            <div className="flex flex-col">
+                <Label>Peran</Label>
+                <MultiSelector
+                    options={rolesOptions}
+                    placeholder="Pilih Peran"
+                    emptyMessage="Tidak ada peran"
+                    defaultValue={data.roles}
+                    onChange={handleSelectionChange}
+                />
+                {errors.roles && (<p className="text-[0.8rem] font-medium text-destructive">{errors.roles}</p>)}
             </div>
             <div className="flex items-start self-center space-x-2 h-max col-span-full md:col-span-1">
                 <Switch id="airplane-mode" checked={data.status === "active"}

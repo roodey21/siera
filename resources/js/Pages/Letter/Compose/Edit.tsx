@@ -13,9 +13,9 @@ import { MultiSelector } from '@/components/ui/multiselector';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
-import { PageProps, User } from "@/types";
-import { Classification, Letter, LetterNumber, LetterType } from "@/types/types";
-import { Link, router, useForm, usePage } from '@inertiajs/react';
+import { PageProps } from "@/types";
+import { Classification, Letter, LetterNumber, LetterType, User } from "@/types/types";
+import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
 import { CalendarIcon, Plus } from 'lucide-react';
 import { Calendar } from '@/components/ui/calendar';
 import { Textarea } from '@/components/ui/textarea';
@@ -81,21 +81,21 @@ export default function Edit({
                 <Breadcrumb>
                     <BreadcrumbList>
                         <BreadcrumbItem className="hidden md:block">
-                            <BreadcrumbLink href={route('dashboard')}>
+                            <Link href={route('dashboard')}>
                                 Dashboard
-                            </BreadcrumbLink>
+                            </Link>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator className="hidden md:block" />
                         <BreadcrumbItem className="hidden md:block">
-                            <BreadcrumbLink href={route('letter.sent')}>
+                            <Link href={route('letter.sent')}>
                                 Surat Keluar
-                            </BreadcrumbLink>
+                            </Link>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator className="hidden md:block" />
                         <BreadcrumbItem className="hidden md:block">
-                            <BreadcrumbLink href={route('letter.sent.show', letter.id)}>
+                            <Link href={route('letter.sent.show', letter.id)}>
                                 {letter.letter_number.code}
-                            </BreadcrumbLink>
+                            </Link>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator className="hidden md:block" />
                         <BreadcrumbItem>
@@ -108,6 +108,8 @@ export default function Edit({
             {/* <CheckLetter
                 letterNumbers={letterNumbers}
             /> */}
+            <Head title={"Edit Surat " + letter.letter_number.code} />
+
             <Card className="col-span-3">
                 <CardHeader>
                     <CardTitle>Tulis Surat</CardTitle>

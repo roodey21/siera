@@ -4,8 +4,22 @@ import InputLabel from '@/components/InputLabel';
 import Modal from '@/components/Modal';
 import SecondaryButton from '@/components/SecondaryButton';
 import TextInput from '@/components/TextInput';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useForm } from '@inertiajs/react';
 import { FormEventHandler, useRef, useState } from 'react';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { Input } from '@/components/ui/input';
 
 export default function DeleteUserForm({
     className = '',
@@ -50,75 +64,60 @@ export default function DeleteUserForm({
     };
 
     return (
-        <section className={`space-y-6 ${className}`}>
-            <header>
-                <h2 className="text-lg font-medium text-gray-900">
+        <Card className={`${className}`}>
+            <CardHeader>
+                <CardTitle>
                     Delete Account
-                </h2>
+                </CardTitle>
 
-                <p className="mt-1 text-sm text-gray-600">
+                <CardDescription>
                     Once your account is deleted, all of its resources and data
                     will be permanently deleted. Before deleting your account,
                     please download any data or information that you wish to
                     retain.
-                </p>
-            </header>
+                </CardDescription>
+            </CardHeader>
 
-            <DangerButton onClick={confirmUserDeletion}>
-                Delete Account
-            </DangerButton>
-
-            <Modal show={confirmingUserDeletion} onClose={closeModal}>
-                <form onSubmit={deleteUser} className="p-6">
-                    <h2 className="text-lg font-medium text-gray-900">
-                        Are you sure you want to delete your account?
-                    </h2>
-
-                    <p className="mt-1 text-sm text-gray-600">
-                        Once your account is deleted, all of its resources and
-                        data will be permanently deleted. Please enter your
-                        password to confirm you would like to permanently delete
-                        your account.
-                    </p>
-
-                    <div className="mt-6">
-                        <InputLabel
-                            htmlFor="password"
-                            value="Password"
-                            className="sr-only"
-                        />
-
-                        <TextInput
-                            id="password"
-                            type="password"
-                            name="password"
-                            ref={passwordInput}
-                            value={data.password}
-                            onChange={(e) =>
-                                setData('password', e.target.value)
-                            }
-                            className="mt-1 block w-3/4"
-                            isFocused
-                            placeholder="Password"
-                        />
-
-                        <InputError
-                            message={errors.password}
-                            className="mt-2"
-                        />
-                    </div>
-
-                    <div className="mt-6 flex justify-end">
-                        <SecondaryButton onClick={closeModal}>
-                            Cancel
-                        </SecondaryButton>
-
-                        <DangerButton className="ms-3" disabled={processing}>
+            <CardContent>
+                <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                        <Button variant="destructive" onClick={confirmUserDeletion}>
                             Delete Account
-                        </DangerButton>
-                    </div>
-                </form>
-            </Modal>
-        </section>
+                        </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Are you sure you want to delete your account?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    Once your account is deleted, all of its resources and
+                                    data will be permanently deleted. Please enter your
+                                    password to confirm you would like to permanently delete
+                                    your account.
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+
+                            <Input
+                                id="password"
+                                type="password"
+                                name="password"
+                                ref={passwordInput}
+                                value={data.password}
+                                onChange={(e) =>
+                                    setData('password', e.target.value)
+                                }
+                                className="block w-3/4 mt-1"
+                                placeholder="Password"
+                            />
+                            {errors.password && (<p className="text-[0.8rem] font-medium text-destructive">{errors.password}</p>)}
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction asChild>
+                                    <Button variant="destructive">Delete Account</Button>
+                                </AlertDialogAction>
+                            </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+            </CardContent>
+        </Card>
     );
 }

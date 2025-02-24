@@ -1,6 +1,6 @@
 import { route } from "ziggy-js";
 import { PageProps } from "@/types";
-import { Department, LetterType, User } from "@/types/types";
+import { Department, LetterType, Role, User } from "@/types/types";
 import { router, useForm, usePage } from "@inertiajs/react";
 import { Label } from "../ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
@@ -14,13 +14,15 @@ import { Calendar } from "../ui/calendar";
 import { useToast } from "@/hooks/use-toast";
 import React from "react";
 import { Switch } from "../ui/switch";
+import { MultiSelector } from "../ui/multiselector";
 
 interface FormCreateProps {
     onSuccess: () => void
     departments?: Department[]
+    roles: Role[]
 }
 
-export default function FormCreate({ onSuccess, departments }: FormCreateProps) {
+export default function FormCreate({ onSuccess, departments, roles }: FormCreateProps) {
     const { errors } = usePage<PageProps>().props
 
     const { data, setData, post, processing } = useForm({
@@ -29,14 +31,25 @@ export default function FormCreate({ onSuccess, departments }: FormCreateProps) 
         phone: "",
         role: "",
         department_id: "",
-        status: "active"
+        status: "active",
+        roles: []
     });
+
+    const rolesOptions = roles.map((role) => ({
+        label: role.name,
+        value: role.name
+    }))
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault()
         // Add your update logic here
         post(route('users.store'))
         onSuccess()
+    }
+
+    const handleSelectionChange = (selectedValues: any) => {
+        setData('roles', selectedValues)
+        console.log(selectedValues)
     }
 
     return (
@@ -109,6 +122,16 @@ export default function FormCreate({ onSuccess, departments }: FormCreateProps) 
                     </SelectContent>
                 </Select>
                 {errors.role && (<p className="text-[0.8rem] font-medium text-destructive">{errors.role}</p>)}
+            </div>
+            <div className="flex flex-col">
+                <Label>Peran</Label>
+                <MultiSelector
+                    options={rolesOptions}
+                    placeholder="Pilih Peran"
+                    emptyMessage="Tidak ada peran"
+                    onChange={handleSelectionChange}
+                />
+                {errors.roles && (<p className="text-[0.8rem] font-medium text-destructive">{errors.roles}</p>)}
             </div>
             <div className="flex items-start self-center space-x-2 h-max col-span-full md:col-span-1">
                 <Switch id="airplane-mode" checked={data.status === "active"}

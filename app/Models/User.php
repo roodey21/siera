@@ -10,11 +10,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, SoftDeletes;
+    use HasFactory, Notifiable, SoftDeletes, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -40,7 +41,7 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    protected $appends = ['avatar'];
+    protected $appends = ['avatar','user_role'];
 
     /**
      * Get the attributes that should be cast.
@@ -76,4 +77,9 @@ class User extends Authenticatable
     // {
     //     return !!$this->deleted_at ? 'inactive' : 'active';
     // }
+
+    public function getUserRoleAttribute()
+    {
+        return $this->roles()->first();
+    }
 }

@@ -4,6 +4,7 @@ import { LetterNumber, LetterType } from "@/types/types"
 import { DataTable } from "./DataTable"
 import { columns } from "./Columns"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
+import { Head, Link } from "@inertiajs/react"
 
 export default function Index({ letterNumbers, letterTypes }: PageProps<{ letterNumbers: LetterNumber[], letterTypes: LetterType[] }>) {
     return (
@@ -12,9 +13,9 @@ export default function Index({ letterNumbers, letterTypes }: PageProps<{ letter
                 <Breadcrumb>
                     <BreadcrumbList>
                         <BreadcrumbItem className="hidden md:block">
-                            <BreadcrumbLink href={route('dashboard')}>
+                            <Link href={route('dashboard')}>
                                 Dashboard
-                            </BreadcrumbLink>
+                            </Link>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator className="hidden md:block" />
                         <BreadcrumbItem>
@@ -24,6 +25,8 @@ export default function Index({ letterNumbers, letterTypes }: PageProps<{ letter
                 </Breadcrumb>
             }
         >
+            <Head title="Nomor Surat" />
+
             <DataTable columns={columns} data={letterNumbers} letterTypes={letterTypes} />
         </AuthenticatedLayout>
     )

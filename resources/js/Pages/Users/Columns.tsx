@@ -55,6 +55,26 @@ export const columns = (onEdit: (user: User) => void, onDelete: (user: User) => 
         </>
     ),
   }),
+  columnHelper.accessor("roles", {
+    id: "roles",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Peran
+        <ArrowDownUp className="w-4 h-4 ml-2" />
+      </Button>
+    ),
+    cell: ({ row }) => (
+        <>
+            {row.original.roles?.length && row.original.roles.map((role) =>
+                <Badge className="ml-2" variant="outline" key={role.id}>{role.name}</Badge>
+            )}
+        </>
+    ),
+  }),
   columnHelper.display({
     id: "actions",
     header: "Aksi",
@@ -72,7 +92,7 @@ export const columns = (onEdit: (user: User) => void, onDelete: (user: User) => 
             Edit
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => onDelete(row.original)}>{row.original.deleted_at ? "Restore" : "Delete"}</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => onDelete(row.original)} className={!row.original.deleted_at ? "text-destructive" : ""}>{row.original.deleted_at ? "Restore" : "Delete"}</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     ),

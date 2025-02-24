@@ -14,7 +14,7 @@ import { FilterButton } from "@/components/data-table/filter-button"
 import FormCreate from "@/components/user/form-create"
 import FormEdit from "@/components/user/form-edit"
 import { FileText, Search } from "lucide-react"
-import { Department, LetterType, User } from "@/types/types"
+import { Department, LetterType, Role, User } from "@/types/types"
 import { router } from "@inertiajs/react"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { useMemo, useState } from "react"
@@ -25,13 +25,15 @@ interface DataTableProps<TData, TValue> {
     departments?: Department[]
     onEdit: (user: User) => void
     onDelete: (user: User) => void
+    roles: Role[]
 }
 
 export function DataTable<TData, TValue>({
     data,
     departments,
     onEdit,
-    onDelete
+    onDelete,
+    roles
 }: DataTableProps<TData, TValue>) {
     const [dialogFormIsOpen, setDialogFormIsOpen] = useState(false)
     const [selectedUser, setSelectedUser] = useState<User | null>(null)
@@ -57,6 +59,10 @@ export function DataTable<TData, TValue>({
 
     const handleEditSuccess = () => {
         router.reload()
+    }
+
+    const closeFormCreate = () => {
+        setDialogFormIsOpen(false)
     }
 
     return (
@@ -89,7 +95,7 @@ export function DataTable<TData, TValue>({
                                 <DialogTitle>Buat Nomor Surat Baru</DialogTitle>
                                 <DialogDescription />
                             </DialogHeader>
-                            <FormCreate onSuccess={setDialogFormIsOpen} departments={departments}/>
+                            <FormCreate onSuccess={closeFormCreate} departments={departments} roles={roles}/>
                         </DialogContent>
                     </Dialog>
                 </div>

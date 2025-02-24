@@ -26,6 +26,7 @@ class UserUpdateRequest extends FormRequest
             'email' => 'required',
             'department_id' => 'nullable',
             'status' => 'required|in:active,inactive',
+            'roles' => 'required|exists:roles,name'
         ];
     }
 }

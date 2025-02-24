@@ -20,59 +20,32 @@ import {
 import { NavMain } from "./nav-main"
 import { Link, usePage } from "@inertiajs/react"
 import { NavUser } from "./nav-user";
-
-// This is sample data.
-const data = {
-  navMain: [
-    {
-      title: "Dashboard",
-      url: "/dashboard",
-      icon: House,
-      isActive: false
-    },
-    {
-      title: "Tulis Surat",
-      url: "/dashboard/compose",
-      icon: Pencil,
-      isActive: false
-    },
-    {
-      title: "Surat Menyurat",
-      url: "#",
-      icon: Mails,
-      items: [
-        {
-          title: "Surat Masuk",
-          url: '/dashboard/inbox',
-          isActive: false
-        },
-        {
-          title: "Surat Keluar",
-          url: '/dashboard/sent',
-          isActive: false
-        },
-        {
-          title: "Disposisi",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Nomor Surat",
-      url: '/dashboard/letter-number',
-      icon: FileDigit,
-      isActive: false
-    },
-    {
-      title: "Kelola Pengguna",
-      url: '/dashboard/users',
-      icon: Users2
-    }
-  ],
-}
+import axios from "axios";
+import menus from "../data/menus"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const page = usePage()
+  const userRoles = page.props.auth.user?.roles.map(role => role.name) || []
+
+  const filteredMenu = menus.navMain
+  .map(menu => {
+    if (menu.items) {
+      const filteredItems = menu.items.filter(item =>
+        !item.roles || item.roles.some(role => userRoles.includes(role))
+      );
+
+      if (filteredItems.length > 0) {
+        return { ...menu, items: filteredItems };
+      }
+    } else {
+      if (!menu.roles || menu.roles.some(role => userRoles.includes(role))) {
+        return menu;
+      }
+    }
+
+    return null;
+  })
+  .filter(menu => menu !== null);
 
   return (
     <Sidebar {...props}>
@@ -97,7 +70,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu>
-            <NavMain items={data.navMain}/>
+            <NavMain items={filteredMenu}/>
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>

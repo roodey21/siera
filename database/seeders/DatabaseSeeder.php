@@ -14,9 +14,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(10)->create();
+        $users = User::factory(10)->create();
 
-        User::factory()->create([
+        $adminUser = User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
@@ -25,8 +25,13 @@ class DatabaseSeeder extends Seeder
             LetterTypeSeeder::class,
             LetterStatusSeeder::class,
             ClassificationSeeder::class,
-            DepartmentSeeder::class
+            DepartmentSeeder::class,
+            RoleSeeder::class
         ]);
+        $adminUser->assignRole('Admin');
+        foreach ($users as $user) {
+            $user->assignRole('User');
+        }
 
         LetterNumber::factory(10)->create();
     }

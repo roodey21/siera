@@ -1,16 +1,16 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PageProps } from "@/types";
-import { Department, LetterNumber, LetterType, User } from "@/types/types";
+import { Department, LetterNumber, LetterType, Role, User } from "@/types/types";
 import { DataTable } from "./DataTable"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { Link, useForm } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger, } from "@/components/ui/alert-dialog"
 import React from "react";
 import FormEdit from "@/components/user/form-edit";
 import { Button } from "@/components/ui/button";
 
-export default function Index({ users, departments }: PageProps<{ users: User[], departments: Department[] }>) {
+export default function Index({ users, departments, roles }: PageProps<{ users: User[], departments: Department[], roles: Role[] }>) {
     const [selectedUser, setSelectedUser] = React.useState<User>()
     const [dialogEditIsOpen, setDialogEditIsOpen] = React.useState(false)
     const [dialogDeleteIsOpen, setDialogDeleteIsOpen] = React.useState(false)
@@ -45,9 +45,9 @@ export default function Index({ users, departments }: PageProps<{ users: User[],
                 <Breadcrumb>
                     <BreadcrumbList>
                         <BreadcrumbItem className="hidden md:block">
-                            <BreadcrumbLink href={route('dashboard')}>
+                            <Link href={route('dashboard')}>
                                 Dashboard
-                            </BreadcrumbLink>
+                            </Link>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator className="hidden md:block" />
                         <BreadcrumbItem>
@@ -57,7 +57,9 @@ export default function Index({ users, departments }: PageProps<{ users: User[],
                 </Breadcrumb>
             }
         >
-            <DataTable data={users} departments={departments} onEdit={editUser} onDelete={deleteUser}/>
+            <Head title="Kelola Pengguna" />
+
+            <DataTable data={users} departments={departments} onEdit={editUser} onDelete={deleteUser} roles={roles}/>
             <Dialog
                 open={dialogEditIsOpen} onOpenChange={setDialogEditIsOpen}
             >
@@ -67,7 +69,7 @@ export default function Index({ users, departments }: PageProps<{ users: User[],
                         <DialogDescription />
                     </DialogHeader>
                     {selectedUser && (
-                        <FormEdit user={selectedUser} onSuccess={handleSuccessUpdate} departments={departments} />
+                        <FormEdit user={selectedUser} onSuccess={handleSuccessUpdate} departments={departments} roles={roles} />
                     )}
                 </DialogContent>
             </Dialog>

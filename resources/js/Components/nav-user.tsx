@@ -29,7 +29,7 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from "@/components/ui/sidebar"
-import { router } from "@inertiajs/react"
+import { Link, router } from "@inertiajs/react"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet"
 
 export function NavUser({
@@ -86,17 +86,19 @@ export function NavUser({
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
-                            <DropdownMenuItem>
-                                <BadgeCheck />
-                                Account
+                            <DropdownMenuItem asChild className="cursor-pointer">
+                                <Link href={route('profile.edit')}>
+                                    <BadgeCheck />
+                                    Account
+                                </Link>
                             </DropdownMenuItem>
-                            <DropdownMenuItem>
+                            <DropdownMenuItem className="cursor-pointer">
                                 <Bell />
                                 Notifications
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={handleLogout}>
+                        <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
                             <LogOut />
                             Log out
                         </DropdownMenuItem>

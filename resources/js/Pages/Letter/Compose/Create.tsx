@@ -13,9 +13,9 @@ import { MultiSelector } from '@/components/ui/multiselector';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
-import { PageProps, User } from "@/types";
-import { Classification, LetterNumber, LetterType } from "@/types/types";
-import { Link, router, useForm, usePage } from '@inertiajs/react';
+import { PageProps } from "@/types";
+import { Classification, LetterNumber, LetterType, User } from "@/types/types";
+import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
 import { CalendarIcon, Plus } from 'lucide-react';
 import { Calendar } from '@/components/ui/calendar';
 import { Textarea } from '@/components/ui/textarea';
@@ -110,9 +110,9 @@ export default function Create({
                 <Breadcrumb>
                     <BreadcrumbList>
                         <BreadcrumbItem className="hidden md:block">
-                            <BreadcrumbLink href={route('dashboard')}>
+                            <Link href={route('dashboard')}>
                                 Dashboard
-                            </BreadcrumbLink>
+                            </Link>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator className="hidden md:block" />
                         <BreadcrumbItem>
@@ -122,6 +122,8 @@ export default function Create({
                 </Breadcrumb>
             }
         >
+            <Head title="Tulis Surat" />
+
             {/* <CheckLetter
                 letterNumbers={letterNumbers}
             /> */}

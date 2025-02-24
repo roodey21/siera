@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { addDays, format, isThisYear, isToday } from "date-fns";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Link, router } from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
 import {
     Tabs,
     TabsContent,
@@ -94,9 +94,9 @@ const Inbox = ({ letters, letterTypes, classifications }: InboxProps) => {
                 <Breadcrumb>
                     <BreadcrumbList>
                         <BreadcrumbItem className="hidden md:block">
-                            <BreadcrumbLink href={route('dashboard')}>
+                            <Link href={route('dashboard')}>
                                 Dashboard
-                            </BreadcrumbLink>
+                            </Link>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator className="hidden md:block" />
                         <BreadcrumbItem>
@@ -106,6 +106,8 @@ const Inbox = ({ letters, letterTypes, classifications }: InboxProps) => {
                 </Breadcrumb>
             }
         >
+            <Head title="Surat Masuk" />
+
             <div className="flex flex-col items-start justify-between gap-2 mb-3 md:flex-row">
                 <Tabs defaultValue="all" className="" onValueChange={(value) => setFilter(value)}>
                     <TabsList>

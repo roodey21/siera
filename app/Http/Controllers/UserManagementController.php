@@ -9,14 +9,16 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
+use Spatie\Permission\Models\Role;
 
 class UserManagementController extends Controller
 {
     public function index()
     {
         return Inertia::render('Users/Index', [
-            'users' => User::with('department')->withTrashed()->get(),
-            'departments' => Department::all()
+            'users' => User::with('department', 'roles')->withTrashed()->get(),
+            'departments' => Department::all(),
+            'roles' => Role::all()
         ]);
     }
 
@@ -24,7 +26,10 @@ class UserManagementController extends Controller
     {
         $validatedRequest = $request->validated();
         $validatedRequest['password'] = Hash::make('password');
-        User::create($validatedRequest);
+
+        $user = User::create($validatedRequest);
+
+        static::checkAndAssignRole($user, $request->roles);
 
         return back()->with('success', 'Data user berhasil dibuat');
     }
@@ -37,6 +42,8 @@ class UserManagementController extends Controller
     public function update(UserUpdateRequest $request, User $user)
     {
         $user->update($request->validated());
+
+        static::checkAndAssignRole($user, $request->roles);
 
         return back()->with('success', 'Data user berhasil disimpan');
     }
@@ -56,5 +63,12 @@ class UserManagementController extends Controller
         $user->restore();
 
         return back()->with('success', 'Data user berhasil dipulihkan');
+    }
+
+    public static function checkAndAssignRole(User $user, $roles)
+    {
+        if ($roles) {
+            $user->assignRole($roles);
+        }
     }
 }
