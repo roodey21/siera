@@ -38,7 +38,17 @@ export default function Create({
     letterTypes: LetterType[]
 }>) {
     const page = usePage()
-    const form = useForm({
+    const form = useForm<{
+        letter_number_id: string;
+        receiver: string;
+        dispositions: string[];
+        date: string;
+        subject: string;
+        classification_code: string;
+        attachment: File | null;
+        summary: string;
+        description: string;
+    }>({
         letter_number_id: "",
         receiver: "",
         dispositions: [],

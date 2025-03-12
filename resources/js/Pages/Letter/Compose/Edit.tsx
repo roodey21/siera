@@ -40,7 +40,17 @@ export default function Edit({
         setDialogFormIsOpen(false)
     }
     const { errors } = usePage().props
-    const form = useForm({
+    const form = useForm<{
+        letter_number_id: string;
+        receiver: string;
+        dispositions: string[];
+        date: string;
+        subject: string;
+        classification_code: string;
+        attachment: File | null;
+        summary: string;
+        description: string;
+    }>({
         letter_number_id: letter.letter_number.id.toString(),
         receiver: letter.receiver.id.toString(),
         dispositions: letter.dispositions.length ? letter.dispositions.map((disposition) => disposition.to.toString()) : [],

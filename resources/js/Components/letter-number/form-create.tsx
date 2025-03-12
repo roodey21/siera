@@ -17,7 +17,7 @@ export default function FormCreate({
     letterTypes,
     handleSuccess
 }: {
-    letterTypes: LetterType[],
+    letterTypes?: LetterType[],
     handleSuccess: () => void
 }) {
     const { errors } = usePage<PageProps>().props;
@@ -50,7 +50,7 @@ export default function FormCreate({
                         <SelectValue placeholder="Pilih Tipe Surat" />
                     </SelectTrigger>
                     <SelectContent>
-                        {letterTypes.length ? letterTypes.map((letterType) => (
+                        {letterTypes?.length ? letterTypes.map((letterType) => (
                             <SelectItem
                                 value={letterType.id.toString()}
                                 key={letterType.id}

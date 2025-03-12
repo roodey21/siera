@@ -32,7 +32,7 @@ const LetterDetail = ({ selectedLetter, dropdown, onSuccessDelete, onSuccessArch
                     <CardContent className="pt-4">
                         <div className="flex justify-between">
                             <div>
-                                <h2 className="font-medium text-base">{selectedLetter.letter_number.code}</h2>
+                                <h2 className="text-base font-medium">{selectedLetter.letter_number.code}</h2>
                                 <p className={cn(!selectedLetter.sender && "italic", "text-muted-foreground text-sm")}>{selectedLetter.sender ? selectedLetter.sender.name : 'User Deleted'}</p>
                             </div>
                             <div>
@@ -40,7 +40,7 @@ const LetterDetail = ({ selectedLetter, dropdown, onSuccessDelete, onSuccessArch
                                     <DropdownMenu>
                                         <DropdownMenuTrigger asChild>
                                             <Button variant="ghost" size="icon" disabled={!selectedLetter}>
-                                                <MoreVertical className="h-4 w-4" />
+                                                <MoreVertical className="w-4 h-4" />
                                                 <span className="sr-only">More</span>
                                             </Button>
                                         </DropdownMenuTrigger>
@@ -56,52 +56,52 @@ const LetterDetail = ({ selectedLetter, dropdown, onSuccessDelete, onSuccessArch
                         <Separator className="my-4" />
                         <div className="text-sm">
                             <div className="mb-2">Perihal : <span className="font-medium">{selectedLetter.letter_number.description}</span></div>
-                            <p>{selectedLetter.description}</p>
+                            <p>{selectedLetter.summary}</p>
                         </div>
                         <Separator className="my-4" />
-                        <dl className="space-y-2 mt-3 text-sm">
+                        <dl className="mt-3 space-y-2 text-sm">
                             <div className="grid justify-between">
-                                <dt className="text-muted-foreground font-medium">Tanggal Surat</dt>
+                                <dt className="font-medium text-muted-foreground">Tanggal Surat</dt>
                                 <dd className="">{selectedLetter.letter_number.date}</dd>
                             </div>
 
                             <div className="grid justify-between">
-                                <dt className="text-muted-foreground font-medium">Tanggal Diterima</dt>
+                                <dt className="font-medium text-muted-foreground">Tanggal Diterima</dt>
                                 <dd className="">{selectedLetter.letter_number.updated_at}</dd>
                             </div>
 
                             <div className="grid justify-between">
-                                <dt className="text-muted-foreground font-medium">Nomor Surat</dt>
+                                <dt className="font-medium text-muted-foreground">Nomor Surat</dt>
                                 <dd className="">{selectedLetter.letter_number.code}</dd>
                             </div>
 
                             <div className="grid justify-between">
-                                <dt className="text-muted-foreground font-medium">Kode</dt>
+                                <dt className="font-medium text-muted-foreground">Kode</dt>
                                 <dd className="">{selectedLetter.classification.code}</dd>
                             </div>
 
                             <div className="grid justify-between">
-                                <dt className="text-muted-foreground font-medium">Klasifikasi</dt>
+                                <dt className="font-medium text-muted-foreground">Klasifikasi</dt>
                                 <dd className=""><Badge>{selectedLetter.classification.type}</Badge></dd>
                             </div>
 
                             <div className="grid justify-between">
-                                <dt className="text-muted-foreground font-medium">Penerima</dt>
+                                <dt className="font-medium text-muted-foreground">Penerima</dt>
                                 <dd className={cn(!selectedLetter.receiver && "italic")}>{selectedLetter.receiver ? selectedLetter.receiver.name : 'User Deleted'}</dd>
                             </div>
 
                             <div className="grid justify-between">
-                                <dt className="text-muted-foreground font-medium">Dibuat oleh</dt>
+                                <dt className="font-medium text-muted-foreground">Dibuat oleh</dt>
                                 <dd className={cn(!selectedLetter.sender && "italic")}>{selectedLetter.sender ? selectedLetter.sender.name : 'User Deleted'}</dd>
                             </div>
 
                             <div className="grid justify-between">
-                                <dt className="text-muted-foreground font-medium">Dibuat pada</dt>
+                                <dt className="font-medium text-muted-foreground">Dibuat pada</dt>
                                 <dd className="">{selectedLetter.created_at}</dd>
                             </div>
 
                             <div className="grid justify-between">
-                                <dt className="text-muted-foreground font-medium">Diperbarui pada</dt>
+                                <dt className="font-medium text-muted-foreground">Diperbarui pada</dt>
                                 <dd className="">{selectedLetter.updated_at}</dd>
                             </div>
                         </dl>
@@ -110,7 +110,7 @@ const LetterDetail = ({ selectedLetter, dropdown, onSuccessDelete, onSuccessArch
                 <Card className="p-0 overflow-hidden">
                     <CardContent className="p-2">
                         <h3>Komentar</h3>
-                        <div className="py-3 w-full">
+                        <div className="w-full py-3">
                             list koment
                         </div>
                         <div className="w-full">
