@@ -8,6 +8,7 @@ import { Separator } from '@/components/ui/separator';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
+import { SiFacebook, SiGoogle, SiMsi, SiX } from '@icons-pack/react-simple-icons'
 
 export default function Login({
     status,
@@ -31,7 +32,13 @@ export default function Login({
     };
 
     const handleLoginWithGoogle = () => {
-        window.location.href = '/auth/redirect';
+        window.location.href = '/auth/redirect/google';
+    }
+    const handleLoginWithFacebook = () => {
+        window.location.href = '/auth/redirect/facebook';
+    }
+    const handleLoginWithX = () => {
+        window.location.href = '/auth/redirect/x';
     }
 
     return (
@@ -90,13 +97,20 @@ export default function Login({
                             </Button>
                             <div className="flex items-center gap-4">
                                 <Separator className="flex-1" />
-                                <span className="text-muted-foreground">or</span>
+                                <span className="text-muted-foreground">or login using</span>
                                 <Separator className="flex-1" />
                             </div>
-                            <Button onClick={handleLoginWithGoogle} className="w-full text-white">
-                                <Google />
-                                Login With Google
-                            </Button>
+                            <div className="flex justify-center gap-4">
+                                <Button onClick={handleLoginWithGoogle} type="button" className="text-white" size={"icon"}>
+                                    <SiGoogle />
+                                </Button>
+                                <Button onClick={handleLoginWithFacebook} type="button" className="text-white" size={"icon"}>
+                                    <SiFacebook />
+                                </Button>
+                                <Button onClick={handleLoginWithX} type="button" className="text-white" size={"icon"}>
+                                    <SiX />
+                                </Button>
+                            </div>
                         </div>
                         <div className="mt-4 text-sm text-center">
                             Don&apos;t have an account?{" "}

@@ -37,9 +37,9 @@ Route::middleware('guest')->group(function () {
         ->name('password.store');
 
     // login using third party apps
-    Route::get('/auth/redirect', [SocialiteController::class, 'redirect']);
+    Route::get('/auth/redirect/{provider}', [SocialiteController::class, 'redirect']);
 
-    Route::get('/auth/callback', [SocialiteController::class, 'callback']);
+    Route::get('/auth/callback/{provider}', [SocialiteController::class, 'callback']);
 });
 
 Route::middleware('auth')->group(function () {

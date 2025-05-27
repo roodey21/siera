@@ -11,18 +11,18 @@ use Laravel\Socialite\Facades\Socialite;
 
 class SocialiteController extends Controller
 {
-    public function redirect()
+    public function redirect($provider)
     {
-        return Socialite::driver('google')->redirect();
+        return Socialite::driver($provider)->redirect();
     }
 
-    public function callback()
+    public function callback($provider)
     {
-        $authenticatedUser = Socialite::driver('google')->user();
+        $authenticatedUser = Socialite::driver($provider)->user();
 
         $user = User::where('email', $authenticatedUser->getEmail())->first();
 
-        if ($user && !$user->google_id) {
+        if ($user && !$user->{$provider."_id"}) {
             $user->google_id = $authenticatedUser->getId();
             $user->save();
         }
@@ -32,7 +32,7 @@ class SocialiteController extends Controller
                 'email' => $authenticatedUser->getEmail(),
                 'name' => $authenticatedUser->getName(),
                 'password' => Hash::make('password'),
-                'google_id' => $authenticatedUser->getId()
+                $provider . "_id" => $authenticatedUser->getId()
             ]);
         }
 
