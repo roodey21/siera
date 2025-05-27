@@ -1,8 +1,10 @@
+import Google from '@/components/icon/google';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
@@ -27,6 +29,10 @@ export default function Login({
             onFinish: () => reset('password'),
         });
     };
+
+    const handleLoginWithGoogle = () => {
+        window.location.href = '/auth/redirect';
+    }
 
     return (
         <GuestLayout>
@@ -81,6 +87,15 @@ export default function Login({
                             </div>
                             <Button type="submit" className="w-full" disabled={processing}>
                                 Login
+                            </Button>
+                            <div className="flex items-center gap-4">
+                                <Separator className="flex-1" />
+                                <span className="text-muted-foreground">or</span>
+                                <Separator className="flex-1" />
+                            </div>
+                            <Button onClick={handleLoginWithGoogle} className="w-full text-white">
+                                <Google />
+                                Login With Google
                             </Button>
                         </div>
                         <div className="mt-4 text-sm text-center">
