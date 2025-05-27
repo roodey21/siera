@@ -22,11 +22,17 @@ class SocialiteController extends Controller
 
         $user = User::where('email', $authenticatedUser->getEmail())->first();
 
+        if ($user && !$user->google_id) {
+            $user->google_id = $authenticatedUser->getId();
+            $user->save();
+        }
+
         if (!$user) {
             $user = User::create([
                 'email' => $authenticatedUser->getEmail(),
                 'name' => $authenticatedUser->getName(),
-                'password' => Hash::make('password')
+                'password' => Hash::make('password'),
+                'google_id' => $authenticatedUser->getId()
             ]);
         }
 
